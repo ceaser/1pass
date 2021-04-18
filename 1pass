@@ -441,7 +441,9 @@ output_result()
         if [ "$os" == "Linux" ] || [ "$os" == "FreeBSD" ]; then
             pbcopy="xclip -selection clipboard"
         fi
+        pkill clipit ; clipit=$?
         echo -n "${get_result}" | $pbcopy
+        [[ $clipit -eq 0 ]] && clipit & # if clipit was running, restart it
         # sleep and reset clipboard
         local sleep_argv0
         sleep_argv0="1pass sleep for user $(id -u)"
